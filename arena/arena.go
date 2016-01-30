@@ -11,7 +11,10 @@ import (
 	"github.com/asciimoo/solary/player"
 )
 
-const ROUND_TIMEOUT = 2
+const (
+	ROUND_TIMEOUT = 2
+	MAX_ROUNDS    = 500
+)
 
 var battle_id uint = 0
 var player_id uint = 0
@@ -43,7 +46,7 @@ func (a *Arena) Play() {
 	for {
 		a.Round += 1
 		a.broadcastStatus()
-		if a.Round == 500 || a.getActivePlayersNum() == 0 {
+		if a.Round == MAX_ROUNDS || a.getActivePlayersNum() == 0 {
 			fmt.Println("Game", a.Id, "finished")
 			return
 		}
