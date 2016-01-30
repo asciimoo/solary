@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/rand"
 	"time"
 
 	"github.com/asciimoo/solary/arena/board"
@@ -39,6 +40,7 @@ func Create() *Arena {
 
 func (a *Arena) Play() {
 	ch := make(chan *player.Move)
+	a.setSpawnPos()
 	for _, p := range a.Players {
 		defer p.Conn.Close()
 		go p.Read(ch)
@@ -137,12 +139,6 @@ func (a *Arena) Play() {
 	}
 }
 
-func (a *Arena) movePlayers(moves *[]*player.Move) {
-	for _, move := range *moves {
-		a.movePlayer(move)
-	}
-}
-
 func (a *Arena) checkDeath() {
 	for _, p := range a.Players {
 		if p.Life <= 0 {
@@ -154,9 +150,41 @@ func (a *Arena) checkDeath() {
 				}
 			}
 			p.Life = 100
-			p.Position.X = 0
-			p.Position.Y = 0
+			p.Position = p.SpawnPosition
 		}
+	}
+}
+
+func (a *Arena) setSpawnPos() {
+	board_size := len(a.Board.Fields)
+	spawn_x := 0
+	spawn_y := 0
+	for {
+		spawn_x = rand.Intn(board_size / 2)
+		spawn_y = rand.Intn(board_size / 2)
+		if a.Board.IsValidLocation(spawn_x, spawn_y) {
+			break
+		}
+	}
+	for i, p := range a.Players {
+		if i%2 == 0 {
+			p.SpawnPosition.X = uint(spawn_x)
+		} else {
+			p.SpawnPosition.X = uint(board_size - spawn_x - 1)
+		}
+		if i%4 < 2 {
+			p.SpawnPosition.Y = uint(spawn_y)
+		} else {
+			p.SpawnPosition.Y = uint(board_size - spawn_y - 1)
+		}
+		p.Position = p.SpawnPosition
+	}
+
+}
+
+func (a *Arena) movePlayers(moves *[]*player.Move) {
+	for _, move := range *moves {
+		a.movePlayer(move)
 	}
 }
 

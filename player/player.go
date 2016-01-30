@@ -15,21 +15,23 @@ const (
 )
 
 type Player struct {
-	Id           uint
-	Life         int
-	Position     coord.Coord
-	Score        int
-	Inventory    map[string]int
-	Disconnected bool      `json:",omitempty"`
-	Conn         io.Closer `json:"-"`
-	reader       *bufio.Reader
-	writer       *bufio.Writer
+	Id            uint
+	Life          int
+	Position      coord.Coord
+	SpawnPosition coord.Coord
+	Score         int
+	Inventory     map[string]int
+	Disconnected  bool      `json:",omitempty"`
+	Conn          io.Closer `json:"-"`
+	reader        *bufio.Reader
+	writer        *bufio.Writer
 }
 
 func Create(id uint, conn io.ReadWriteCloser) *Player {
 	return &Player{
 		id,
 		MAX_LIFE,
+		coord.Coord{},
 		coord.Coord{},
 		0,
 		make(map[string]int),

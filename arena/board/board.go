@@ -36,8 +36,8 @@ func Create() *Board {
 			b.Fields[y][x] = field.Create("rock")
 		}
 	}
-	pos_x := 0
-	pos_y := 0
+	pos_x := rand.Intn(b.width)
+	pos_y := rand.Intn(b.height)
 	carve_count := (b.width * b.height) / 6
 	for carve_count > 0 {
 		b.mirrorCarve(pos_x, pos_y)
