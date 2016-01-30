@@ -53,7 +53,6 @@ func (a *Arena) Play() {
 		if a.Round%100 == 0 {
 			a.Board.PopulateRandomLoot()
 		}
-		fmt.Println("Round", a.Round, "started")
 		// collect moves
 		moves := a.getMoves(ch)
 		// activate laser beams and traps
