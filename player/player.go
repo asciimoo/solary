@@ -20,12 +20,13 @@ type Player struct {
 	Position     coord.Coord
 	Score        int
 	Inventory    map[string]int
-	Disconnected bool `json:",omitempty"`
+	Disconnected bool      `json:",omitempty"`
+	Conn         io.Closer `json:"-"`
 	reader       *bufio.Reader
 	writer       *bufio.Writer
 }
 
-func Create(id uint, conn io.ReadWriter) *Player {
+func Create(id uint, conn io.ReadWriteCloser) *Player {
 	return &Player{
 		id,
 		MAX_LIFE,
@@ -33,6 +34,7 @@ func Create(id uint, conn io.ReadWriter) *Player {
 		0,
 		make(map[string]int),
 		false,
+		conn,
 		bufio.NewReader(conn),
 		bufio.NewWriter(conn),
 	}

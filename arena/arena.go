@@ -38,10 +38,12 @@ func (a *Arena) Play() {
 	fmt.Println("Game", a.Id, "started")
 	ch := make(chan *player.Move)
 	for _, p := range a.Players {
+		defer p.Conn.Close()
 		go p.Read(ch)
 	}
 	for {
 		a.Round += 1
+		a.broadcastStatus()
 		if a.Round == 500 || a.getActivePlayersNum() == 0 {
 			fmt.Println("Game", a.Id, "finished")
 			return
@@ -50,7 +52,6 @@ func (a *Arena) Play() {
 			a.Board.PopulateRandomLoot()
 		}
 		fmt.Println("Round", a.Round, "started")
-		a.broadcastStatus()
 		// collect moves
 		moves := a.getMoves(ch)
 		// activate laser beams and traps
@@ -237,7 +238,7 @@ func (a *Arena) broadcastStatus() {
 	}
 }
 
-func (a *Arena) AddPlayer(conn io.ReadWriter) {
+func (a *Arena) AddPlayer(conn io.ReadWriteCloser) {
 	p := player.Create(player_id, conn)
 	msg, _ := json.Marshal(p)
 	p.Write(msg)
