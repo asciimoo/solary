@@ -24,7 +24,8 @@ Reach higher score than your opponents
 
 ### Protocol
 
-Each server/client message should be a single line of json serialized data
+Each server/client message should be a single line of json serialized data.
+Default server port is TCP 6666.
 
 
 #### Player move
