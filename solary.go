@@ -31,8 +31,13 @@ func main() {
 
 	flag.Parse()
 	if len(flag.Args()) != 0 {
-		b := board.Create()
-		fmt.Println(b)
+		switch flag.Args()[0] {
+		case "board":
+			b := board.Create()
+			fmt.Print(b)
+		default:
+			fmt.Println("Unknown command")
+		}
 	} else {
 		gameLoop(*address, *players_per_game)
 	}
