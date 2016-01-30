@@ -42,12 +42,12 @@ func (a *Arena) Play() {
 	}
 	for {
 		a.Round += 1
-		if a.Round%100 == 0 {
-			a.Board.PopulateRandomLoot()
-		}
-		if a.getActivePlayersNum() == 0 {
+		if a.Round == 500 || a.getActivePlayersNum() == 0 {
 			fmt.Println("Game", a.Id, "finished")
 			return
+		}
+		if a.Round%100 == 0 {
+			a.Board.PopulateRandomLoot()
 		}
 		fmt.Println("Round", a.Round, "started")
 		a.broadcastStatus()
