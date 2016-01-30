@@ -77,7 +77,7 @@ func (b *Board) String() string {
 func (b *Board) PopulateRandomLoot() {
 	for y := 0; y < b.height; y++ {
 		for x := 0; x < b.width; x++ {
-			if b.Fields[y][x].Type != "rock" && rand.Int()%2 != 0 {
+			if b.Fields[y][x].Type != "rock" && rand.Int()%3 == 0 {
 				b.Fields[y][x].AddRandomLoot()
 			}
 		}
