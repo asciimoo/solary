@@ -33,11 +33,7 @@ func Create() *Board {
 	for y := 0; y < size; y++ {
 		b.Fields[y] = make([]*field.Field, size)
 		for x := 0; x < size; x++ {
-			if x == 0 || y == 0 || x == size-1 || y == size-1 {
-				b.Fields[y][x] = field.Create("ground")
-			} else {
-				b.Fields[y][x] = field.Create("rock")
-			}
+			b.Fields[y][x] = field.Create("rock")
 		}
 	}
 	pos_x := 0
