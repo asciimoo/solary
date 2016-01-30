@@ -20,7 +20,7 @@ type Player struct {
 	Position     coord.Coord
 	Score        int
 	Inventory    map[string]int
-	Disconnected bool `json:"-"`
+	Disconnected bool `json:",omitempty"`
 	reader       *bufio.Reader
 	writer       *bufio.Writer
 }
