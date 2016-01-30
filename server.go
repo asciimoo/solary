@@ -11,7 +11,7 @@ import (
 
 func gameLoop(address string, players_num int) {
 	game_server, _ := net.Listen("tcp", address)
-	fmt.Println("Server started")
+	fmt.Println("Server started on " + address)
 
 	for {
 		a := arena.Create()
