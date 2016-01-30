@@ -35,7 +35,6 @@ func Create() *Arena {
 }
 
 func (a *Arena) Play() {
-	fmt.Println("Game", a.Id, "started")
 	ch := make(chan *player.Move)
 	for _, p := range a.Players {
 		defer p.Conn.Close()
@@ -180,7 +179,6 @@ func (a *Arena) movePlayer(m *player.Move) {
 		m.Player.Position.X = new_x
 		m.Player.Position.Y = new_y
 	}
-	fmt.Println("player", m.Player.Id, "moves to", m.Direction)
 }
 
 func (a *Arena) getMoves(ch chan *player.Move) []*player.Move {
