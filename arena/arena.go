@@ -40,11 +40,11 @@ func Create() *Arena {
 
 func (a *Arena) Play() {
 	ch := make(chan *player.Move)
-	a.setSpawnPos()
 	for _, p := range a.Players {
 		defer p.Conn.Close()
 		go p.Read(ch)
 	}
+	a.setSpawnPos()
 	for {
 		a.Round += 1
 		a.broadcastStatus()
@@ -157,13 +157,13 @@ func (a *Arena) checkDeath() {
 
 func (a *Arena) setSpawnPos() {
 	board_size := len(a.Board.Fields)
-	spawn_x := 0
-	spawn_y := 0
-	for {
-		spawn_x = rand.Intn(board_size / 2)
-		spawn_y = rand.Intn(board_size / 2)
-		if a.Board.IsValidLocation(spawn_x, spawn_y) {
-			break
+	spawn_x := rand.Intn(board_size / 2)
+	spawn_y := rand.Intn(board_size / 2)
+	for !a.Board.IsValidLocation(spawn_x, spawn_y) {
+		if rand.Int()%2 == 0 {
+			spawn_x = (spawn_x + 1) % board_size / 2
+		} else {
+			spawn_y = (spawn_y + 1) % board_size / 2
 		}
 	}
 	for i, p := range a.Players {
