@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	BOARD_SIZE_MIN = 10
-	BOARD_SIZE_MAX = 30
+	BOARD_SIZE_MIN = 6
+	BOARD_SIZE_MAX = 20
 )
 
 type Board struct {
