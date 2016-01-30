@@ -11,6 +11,8 @@ import (
 	"github.com/asciimoo/solary/player"
 )
 
+const ROUND_TIMEOUT = 2
+
 var battle_id uint = 0
 var player_id uint = 0
 
@@ -184,7 +186,7 @@ func (a *Arena) getMoves(ch chan *player.Move) []*player.Move {
 	moves := []*player.Move{}
 	timeout := make(chan bool)
 	go func() {
-		time.Sleep(200 * time.Second)
+		time.Sleep(ROUND_TIMEOUT * time.Second)
 		timeout <- true
 	}()
 	recv_break := false
