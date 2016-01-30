@@ -172,7 +172,7 @@ func (a *Arena) setSpawnPos() {
 		} else {
 			p.SpawnPosition.X = uint(board_size - spawn_x - 1)
 		}
-		if i%4 < 2 {
+		if (i+1)%4 > 1 {
 			p.SpawnPosition.Y = uint(spawn_y)
 		} else {
 			p.SpawnPosition.Y = uint(board_size - spawn_y - 1)
