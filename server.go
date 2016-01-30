@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net"
 
@@ -11,9 +12,8 @@ const (
 	PLAYERS_NUM int = 2
 )
 
-func main() {
-
-	game_server, _ := net.Listen("tcp", ":6666")
+func gameLoop(address string) {
+	game_server, _ := net.Listen("tcp", address)
 	fmt.Println("Server started")
 
 	for {
@@ -25,4 +25,14 @@ func main() {
 		fmt.Println("Game", a.Id, "started")
 		go a.Play()
 	}
+}
+
+func main() {
+
+	address := flag.String("listen", "127.0.0.1:6666", "server listen address")
+
+	flag.Parse()
+
+	gameLoop(*address)
+
 }
