@@ -28,7 +28,7 @@ func Create() *Arena {
 		battle_id,
 		0,
 		make([]*player.Player, 0),
-		board.Create(10, 10),
+		board.Create(),
 	}
 	battle_id += 1
 	return a
@@ -175,7 +175,7 @@ func (a *Arena) movePlayer(m *player.Move) {
 	case "right":
 		new_x += distance
 	}
-	if a.Board.IsValidLocation(new_x, new_y) {
+	if a.Board.IsValidLocation(int(new_x), int(new_y)) {
 		m.Player.Position.X = new_x
 		m.Player.Position.Y = new_y
 	}

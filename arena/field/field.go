@@ -7,10 +7,11 @@ import (
 type Field struct {
 	Loot  []string `json:",omitempty"`
 	Traps int      `json:",omitempty"`
+	Type  string
 }
 
-func Create() *Field {
-	return &Field{make([]string, 0), 0}
+func Create(field_type string) *Field {
+	return &Field{make([]string, 0), 0, field_type}
 }
 
 func (f *Field) ClearTraps() {

@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/asciimoo/solary/arena"
+	"github.com/asciimoo/solary/arena/board"
 )
 
 const (
@@ -32,7 +33,11 @@ func main() {
 	address := flag.String("listen", "127.0.0.1:6666", "server listen address")
 
 	flag.Parse()
-
-	gameLoop(*address)
+	if len(flag.Args()) != 0 {
+		b := board.Create()
+		fmt.Println(b)
+	} else {
+		gameLoop(*address)
+	}
 
 }

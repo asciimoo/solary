@@ -2,7 +2,12 @@ package loot
 
 import (
 	"math/rand"
+	"time"
 )
+
+func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
+}
 
 type Loot interface {
 	String() string
