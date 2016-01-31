@@ -7,7 +7,7 @@ A turn based game for bots.
 
 In every turn each player can move in any direction (`left`, `right`, `up`, `down`), and can use an item from its inventory. Loot is automatically collected if you are the only player on the field.
 
-Rocks are not passable however laser beam can go through it.
+Rocks are not passable however laser beam can smash them.
 
 
 ### Goal
