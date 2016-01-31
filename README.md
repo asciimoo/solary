@@ -32,14 +32,14 @@ Default server port is TCP 6666.
 
 #### Player move
 
-JSON object with `direction` and `item` optional keys
+JSON object with `Direction` and `Item` optional keys
 
 
 ##### Movement examples
 
- - `{"direction": "up"}` - move up
- - `{"direction": "right", "item": "laser beam"}` - shoot and move left
- - `{"item": "oil"}` - stay and heal
+ - `{"Direction": "up"}` - move up
+ - `{"Direction": "right", "Item": "laser beam"}` - shoot and move left
+ - `{"Item": "oil"}` - stay and heal
 
 
 #### Server status
