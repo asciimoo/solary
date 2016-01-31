@@ -160,15 +160,23 @@ func (a *Arena) checkDeath() {
 
 func (a *Arena) setSpawnPos() {
 	board_size := uint(len(a.Board.Fields))
+	board_half := board_size / 2
 	spawn_coord := coord.Coord{
-		uint(rand.Intn(int(board_size / 2))),
-		uint(rand.Intn(int(board_size / 2))),
+		uint(rand.Intn(int(board_half))),
+		uint(rand.Intn(int(board_half))),
 	}
-	for !a.Board.IsValidLocation(spawn_coord) {
-		if rand.Int()%2 == 0 {
-			spawn_coord.X = (spawn_coord.X + 1) % board_size / 2
-		} else {
-			spawn_coord.Y = (spawn_coord.Y + 1) % board_size / 2
+	pos_found := false
+	for x := uint(0); x <= board_half; x++ {
+		for y := uint(0); y <= board_half; y++ {
+			spawn_coord.X = (spawn_coord.X + x) % board_half
+			spawn_coord.Y = (spawn_coord.Y + y) % board_half
+			if a.Board.IsValidLocation(spawn_coord) {
+				pos_found = true
+				break
+			}
+		}
+		if pos_found {
+			break
 		}
 	}
 	for i, p := range a.Players {
