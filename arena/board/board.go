@@ -84,8 +84,12 @@ func (b *Board) PopulateRandomLoot() {
 	}
 }
 
-func (b *Board) IsValidLocation(x, y int) bool {
-	return x >= 0 && y >= 0 && x < b.width && y < b.height && b.Fields[y][x].Type != "rock"
+func (b *Board) IsValidCoord(c coord.Coord) bool {
+	return c.X >= 0 && c.Y >= 0 && c.X < uint(b.width) && c.Y < uint(b.height)
+}
+
+func (b *Board) IsValidLocation(c coord.Coord) bool {
+	return b.IsValidCoord(c) && b.Fields[c.Y][c.X].Type != "rock"
 }
 
 func (b *Board) FieldByCoord(c coord.Coord) *field.Field {

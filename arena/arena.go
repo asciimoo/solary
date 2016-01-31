@@ -88,6 +88,9 @@ func (a *Arena) Play() {
 						uint(laser_x*i) + move.Player.Position.X,
 						uint(laser_y*i) + move.Player.Position.Y,
 					}
+					if a.Board.IsValidCoord(laser_coord) && a.Board.FieldByCoord(laser_coord).Type == "rock" {
+						a.Board.FieldByCoord(laser_coord).Type = "ground"
+					}
 					for _, p := range a.Players {
 						if p.Position.X == laser_coord.X && p.Position.Y == laser_coord.Y {
 							p.Life -= 25
@@ -156,26 +159,28 @@ func (a *Arena) checkDeath() {
 }
 
 func (a *Arena) setSpawnPos() {
-	board_size := len(a.Board.Fields)
-	spawn_x := rand.Intn(board_size / 2)
-	spawn_y := rand.Intn(board_size / 2)
-	for !a.Board.IsValidLocation(spawn_x, spawn_y) {
+	board_size := uint(len(a.Board.Fields))
+	spawn_coord := coord.Coord{
+		uint(rand.Intn(int(board_size / 2))),
+		uint(rand.Intn(int(board_size / 2))),
+	}
+	for !a.Board.IsValidLocation(spawn_coord) {
 		if rand.Int()%2 == 0 {
-			spawn_x = (spawn_x + 1) % board_size / 2
+			spawn_coord.X = (spawn_coord.X + 1) % board_size / 2
 		} else {
-			spawn_y = (spawn_y + 1) % board_size / 2
+			spawn_coord.Y = (spawn_coord.Y + 1) % board_size / 2
 		}
 	}
 	for i, p := range a.Players {
 		if i%2 == 0 {
-			p.SpawnPosition.X = uint(spawn_x)
+			p.SpawnPosition.X = spawn_coord.X
 		} else {
-			p.SpawnPosition.X = uint(board_size - spawn_x - 1)
+			p.SpawnPosition.X = board_size - spawn_coord.X - 1
 		}
 		if (i+1)%4 > 1 {
-			p.SpawnPosition.Y = uint(spawn_y)
+			p.SpawnPosition.Y = spawn_coord.Y
 		} else {
-			p.SpawnPosition.Y = uint(board_size - spawn_y - 1)
+			p.SpawnPosition.Y = board_size - spawn_coord.Y - 1
 		}
 		p.Position = p.SpawnPosition
 	}
@@ -189,25 +194,23 @@ func (a *Arena) movePlayers(moves *[]*player.Move) {
 }
 
 func (a *Arena) movePlayer(m *player.Move) {
-	new_y := m.Player.Position.Y
-	new_x := m.Player.Position.X
+	new_coord := m.Player.Position
 	distance := uint(1)
 	if m.Item == "pogo stick" {
 		distance = 2
 	}
 	switch m.Direction {
 	case "up":
-		new_y -= distance
+		new_coord.Y -= distance
 	case "down":
-		new_y += distance
+		new_coord.Y += distance
 	case "left":
-		new_x -= distance
+		new_coord.X -= distance
 	case "right":
-		new_x += distance
+		new_coord.X += distance
 	}
-	if a.Board.IsValidLocation(int(new_x), int(new_y)) {
-		m.Player.Position.X = new_x
-		m.Player.Position.Y = new_y
+	if a.Board.IsValidLocation(new_coord) {
+		m.Player.Position = new_coord
 	}
 }
 
