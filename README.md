@@ -38,7 +38,7 @@ JSON object with `Direction` and `Item` optional keys
 ##### Movement examples
 
  - `{"Direction": "up"}` - move up
- - `{"Direction": "right", "Item": "laser beam"}` - shoot and move left
+ - `{"Direction": "right", "Item": "laser beam"}` - shoot and move right
  - `{"Item": "oil"}` - stay and heal
 
 
